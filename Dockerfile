@@ -1,5 +1,4 @@
-FROM golang:1.20.5-bookworm
-
+FROM golang:latest
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
