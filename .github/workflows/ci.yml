@@ -30,9 +30,15 @@ jobs:
             ./govulncheck-with-excludes.sh -mode=binary "$gosu"
           done
 
-      - name: Create GitHub Release
+      - name: Generate file list for release
+        id: filelist
+        run: |
+          files=$(ls gosu-* | tr '\n' ',' | sed 's/,$//')
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+      - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: gosu_*
+          files: ${{ steps.filelist.outputs.files }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
