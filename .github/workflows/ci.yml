@@ -30,19 +30,32 @@ jobs:
             ./govulncheck-with-excludes.sh -mode=binary "$gosu"
           done
 
+#      - name: Generate file list for release
+#        id: filelist
+#        run: |
+#          files=$(ls gosu-* | tr '\n' ',' | sed 's/,$//')
+#          echo "files=$files" >> $GITHUB_OUTPUT
+
+
+
+
+
       - name: Generate file list for release
         id: filelist
         run: |
-          files=$(ls gosu-* | tr '\n' ',' | sed 's/,$//')
-          echo "files=$files" >> $GITHUB_OUTPUT
+          ls gosu-* > files.txt
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          cat files.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Upload to GitHub Release
+        uses: ncipollo/release-action@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: 1.17
-          prerelease: false
-          files: ${{ steps.filelist.outputs.files }}
+          artifacts: ${{ steps.filelist.outputs.files }}
+          tag: v1.17 
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+
 
 #      - name: Upload to GitHub Release
 #        uses: softprops/action-gh-release@v2
