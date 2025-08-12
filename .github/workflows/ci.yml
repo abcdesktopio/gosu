@@ -36,20 +36,10 @@ jobs:
           files=$(ls gosu-* | tr '\n' ',' | sed 's/,$//')
           echo "files=$files" >> $GITHUB_OUTPUT
 
-      - name: Fetch all tags
-        run: git fetch --tags
-
-      - name: Get latest tag
-        id: get_tag
-        run: |
-          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          echo "tag=$latest_tag" >> $GITHUB_OUTPUT
-
-
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.filelist.outputs.files }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.get_tag.outputs.tag }}
+          tag_name: 1.17
