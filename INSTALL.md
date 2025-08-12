@@ -122,3 +122,5 @@ Notes:
 ```dockerfile
 COPY --from=tianon/gosu /gosu /usr/local/bin/
 ```
+
+
