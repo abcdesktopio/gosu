@@ -52,7 +52,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: ${{ steps.filelist.outputs.files }}
-          tag: v1.17 
+          tag: 1.17 
           token: ${{ secrets.GITHUB_TOKEN }}
 
 
